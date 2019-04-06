@@ -1,0 +1,64 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.3.20"
+    id "org.jetbrains.kotlin.kapt" version "1.3.20"
+    id "com.github.johnrengelman.shadow" version "4.0.3"
+    id "flavor.pie.promptsign" version "1.0.2"
+    id "com.qixalite.spongestart2" version "4.0.0"
+}
+
+group "de.randombyte"
+version "1.0.0"
+
+repositories {
+    jcenter()
+    maven { url "https://repo.spongepowered.org/maven/" }
+    maven { url "https://jitpack.io" }
+    maven { url "https://repo.codemc.org/repository/maven-public" }
+}
+
+configurations {
+    compile.extendsFrom shadow
+    compile.extendsFrom kapt
+}
+
+dependencies {
+    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.20"
+    kapt "org.spongepowered:spongeapi:7.1.0"
+    shadow("com.github.randombyte-developer.kosp:kosp:v2.2.3") { transitive = false }
+    shadow "org.bstats:bstats-sponge:1.4"
+    shadow("com.google.apis:google-api-services-youtube:v3-rev209-1.25.0") {
+        exclude module: "gson"
+        exclude module: "guava"
+    }
+}
+
+spongestart {
+    minecraft "1.12.2"
+}
+
+jar.enabled = false
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+
+    relocate "kotlin", "de.randombyte.youtubesearch.shaded.kotlin"
+    relocate "de.randombyte.kosp", "de.randombyte.youtubesearch.shaded.kosp"
+
+    // eh, that's all from the youtube lib
+    relocate "org.apache.http", "de.randombyte.youtubesearch.shaded.apache.http"
+    relocate "org.apache.commons.logging", "de.randombyte.youtubesearch.shaded.apache.commons.logging"
+    relocate "org.apache.commons.codec", "de.randombyte.youtubesearch.shaded.apache.commons.codec"
+    relocate "com.fasterxml.jackson", "de.randombyte.youtubesearch.shaded.jackson"
+    relocate "com.google.api.services.youtube", "de.randombyte.youtubesearch.shaded.google.youtube"
+    relocate "com.google.api.client", "de.randombyte.youtubesearch.shaded.google.client"
+
+    classifier = null // Remove '-all' suffix from output file name
+}
+build.dependsOn shadowJar
+signArchives.dependsOn shadowJar
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
