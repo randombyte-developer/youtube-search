@@ -15,6 +15,7 @@ class GeneralConfig (
 
         @Setting("api-key") val apiKey: String = "",
         @Setting("results-count") val resultsCount: Int = 3,
+        @Setting("query-prefix", comment = "This will be put in front of every query done by users") val queryPrefix: String = "",
         @Setting("intercepted-keywords") val interceptedKeywords: List<KeywordBundle> = listOf(
                 KeywordBundle(
                         keywords = listOf("torch"),

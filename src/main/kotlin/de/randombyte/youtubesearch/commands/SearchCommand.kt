@@ -37,9 +37,10 @@ class SearchCommand : CommandExecutor {
                 .async()
                 .execute { task ->
                     val maxItems = generalConfig.resultsCount.coerceIn(1..25)
-                    val response = YoutubeApi.searchBlocking(query, maxItems)
+                    val finalQuery = "${generalConfig.queryPrefix} $query".trim()
+                    val response = YoutubeApi.searchBlocking(finalQuery, maxItems)
 
-                    target.sendMessage(texts.resultsHeader.replace(Placeholders.QUERY to query).deserialize())
+                    target.sendMessage(texts.resultsHeader.replace(Placeholders.QUERY to finalQuery).deserialize())
 
                     response.items.take(maxItems).forEach { item ->
                         val title = StringEscapeUtils.unescapeHtml4(item.snippet.title).let { title ->
