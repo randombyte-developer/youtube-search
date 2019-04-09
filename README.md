@@ -1,7 +1,7 @@
 # YoutubeSearch
 
-## [Wiki](https://github.com/randombyte-developer/youtube-search/wiki)
+### [Wiki](https://github.com/randombyte-developer/youtube-search/wiki)
 
-## [Download](https://github.com/randombyte-developer/youtube-search/releases)
+### [Download](https://github.com/randombyte-developer/youtube-search/releases)
 
-## [Ore]()
+### [Ore](https://ore.spongepowered.org/RandomByte/YoutubeSearch)
