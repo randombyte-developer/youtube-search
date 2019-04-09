@@ -7,6 +7,7 @@ import de.randombyte.youtubesearch.config.TextsConfig.Placeholders
 import de.randombyte.youtubesearch.generalConfig
 import de.randombyte.youtubesearch.texts
 import org.apache.commons.lang3.StringEscapeUtils
+import org.spongepowered.api.command.CommandException
 import org.spongepowered.api.command.CommandResult
 import org.spongepowered.api.command.CommandSource
 import org.spongepowered.api.command.args.CommandContext
@@ -17,6 +18,10 @@ import java.net.URL
 
 class SearchCommand : CommandExecutor {
     override fun execute(src: CommandSource, args: CommandContext): CommandResult {
+        if (generalConfig.apiKey.isBlank()) {
+            throw CommandException("Set your API key in the config!".toText())
+        }
+
         val target = args.getOne<CommandSource>(YoutubeSearch.PLAYER_ARG).orElse(src)
         val query = args.getOne<String>(YoutubeSearch.QUERY_ARG).get()
 
@@ -40,7 +45,7 @@ class SearchCommand : CommandExecutor {
                     val finalQuery = "${generalConfig.queryPrefix} $query".trim()
                     val response = YoutubeApi.searchBlocking(finalQuery, maxItems)
 
-                    target.sendMessage(texts.resultsHeader.replace(Placeholders.QUERY to finalQuery).deserialize())
+                    target.sendMessage(texts.resultsHeader.replace(Placeholders.QUERY to query).deserialize())
 
                     response.items.take(maxItems).forEach { item ->
                         val title = StringEscapeUtils.unescapeHtml4(item.snippet.title).let { title ->

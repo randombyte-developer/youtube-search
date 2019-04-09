@@ -13,13 +13,17 @@ class GeneralConfig (
                 "If you really don't want to enable metrics and don't want to receive any messages anymore, you can disable this config option :("
         ) val enableMetricsMessages: Boolean = true,
 
-        @Setting("api-key") val apiKey: String = "",
+        @Setting("api-key", comment = "Get your YouTube API key from https://console.developers.google.com") val apiKey: String = "",
         @Setting("results-count") val resultsCount: Int = 3,
         @Setting("query-prefix", comment = "This will be put in front of every query done by users") val queryPrefix: String = "",
         @Setting("intercepted-keywords") val interceptedKeywords: List<KeywordBundle> = listOf(
                 KeywordBundle(
                         keywords = listOf("torch"),
                         messages = listOf("Torches can be used to light up a certain area.")
+                ),
+                KeywordBundle(
+                        keywords = listOf("armor", "shield"),
+                        messages = listOf("Protect yourself with armor and shields.")
                 )
         )
 ) {

@@ -40,7 +40,7 @@ class YoutubeSearch @Inject constructor(
     companion object {
         const val ID = "youtube-search"
         const val NAME = "YoutubeSearch"
-        const val VERSION = "1.0.0"
+        const val VERSION = "1.1.0"
         const val AUTHOR = "RandomByte"
 
         const val ROOT_PERMISSION = ID
@@ -84,7 +84,7 @@ class YoutubeSearch @Inject constructor(
                         remainingRawJoinedStrings(QUERY_ARG.toText())
                 )
                 .executor(SearchCommand())
-                .build(), "yotubesearch", "search", "yts")
+                .build(), "yotubesearch", "search", "srch")
     }
 
     private val metricsNoteSent = mutableSetOf<UUID>()
